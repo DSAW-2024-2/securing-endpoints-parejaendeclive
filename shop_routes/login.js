@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import express from 'express';
 import jwt from 'jsonwebtoken';
@@ -23,20 +22,19 @@ loginRouter.post('/', (req, res) => {
 
     // Validar credenciales
     if (email === adminUser.email && password === adminUser.password) {
-        // Guardar la sesión
-        const emailAuth = req.session.user = { email };
+        // Crear el token JWT
+        const emailAuth = { email }; // Datos para el token
         const accessToken = generateToken(emailAuth);
 
-        return res.status(200).json({ message: "Inicio de sesión exitoso", accessToken});
+        return res.status(200).json({ message: "Inicio de sesión exitoso", accessToken });
     } else {
         return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 });
 
-//authentication token
-function generateToken(emailAuth){
-    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN);
-    
+// Generar token JWT
+function generateToken(emailAuth) {
+    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' });
 }
 
 // POST Logout (opcional)
