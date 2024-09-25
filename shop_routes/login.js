@@ -1,4 +1,9 @@
+
+import dotenv from 'dotenv';
 import express from 'express';
+import jwt from 'jsonwebtoken';
+
+dotenv.config();
 const loginRouter = express.Router();
 
 // Usuario predefinido
@@ -19,12 +24,20 @@ loginRouter.post('/', (req, res) => {
     // Validar credenciales
     if (email === adminUser.email && password === adminUser.password) {
         // Guardar la sesión
-        req.session.user = { email };
-        return res.status(200).json({ message: "Inicio de sesión exitoso" });
+        const emailAuth = req.session.user = { email };
+        const accessToken = generateToken(emailAuth);
+
+        return res.status(200).json({ message: "Inicio de sesión exitoso", accessToken});
     } else {
         return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 });
+
+//authentication token
+function generateToken(emailAuth){
+    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN);
+    
+}
 
 // POST Logout (opcional)
 loginRouter.post('/logout', (req, res) => {
