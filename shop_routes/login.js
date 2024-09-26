@@ -34,7 +34,8 @@ loginRouter.post('/', (req, res) => {
 
 // Generar token JWT
 function generateToken(emailAuth) {
-    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '1h' });
+    //se pone fecha de expiracion para probar que el error 403 funciona en ambos casos
+    return jwt.sign(emailAuth, process.env.ACCESS_SECRET_TOKEN, { expiresIn: '40s' });
 }
 
 // POST Logout (opcional)
