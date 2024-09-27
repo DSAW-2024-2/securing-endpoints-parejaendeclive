@@ -8,7 +8,7 @@ export function authenticate(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1]; // Obtener token del header
 
     // Si no hay token, retornar no autorizado
-    if (token == null) return res.status(403).json({error: "Invalid JWT Tokens"});
+    if (token == null) return res.status(403).json({error: "Invalid JWT Token"});
 
     // Verificar el token JWT
     jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, (err, user) => {
