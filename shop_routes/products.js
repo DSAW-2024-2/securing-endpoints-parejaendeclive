@@ -92,7 +92,7 @@ products_router.put('/:id', (req, res) => {
         if (!/^\d+$/.test(price)) {
             return res.status(400).json({ message: "price must be a valid number" });
         }
-        products[productIndex] = { ...products[productIndex],productId, name, price, category };
+        products[productIndex] = { ...products[productIndex],name, price, category };
         res.json({ message: "Product updated" });
     } catch (error) {
         res.status(500).json({ message: "Product not updated", error: error.message });

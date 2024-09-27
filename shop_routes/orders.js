@@ -33,6 +33,9 @@ orders_router.post('/', (req, res) => {
     if(!string_validation(id,userId,productId,quantity,status)){
         return res.status(400).json({ error: 'type of data invalid' }); 
     }
+    if (orders.some(p => p.id === id)) {
+        return res.status(400).json({ message: "ID in use" });
+    }
     
     if (!/^\d+$/.test(quantity)) {
         return res.status(400).json({ message: "quantity must be a valid number" });
